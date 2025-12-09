@@ -1,1 +1,2 @@
 docker,docker-compose,nginx: https://github.com/hasan914/ansible-devops/tree/main
+docker-compose.yml,prometheus: https://dev.to/rafi021/how-to-set-up-a-monitoring-stack-with-prometheus-grafana-and-node-exporter-using-docker-compose-17cc

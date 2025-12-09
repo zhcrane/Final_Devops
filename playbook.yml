@@ -46,8 +46,8 @@
          mode: '0755'
        become: yes
  
-     #- name: Deploy Docker Compose stack
-     #  community.docker.docker_compose_v2:
-     #    project_src: /path/to/your/docker-compose.yml/dir
-     #    state: present
-     #  become: yes
+     - name: Deploy Docker Compose stack
+       community.docker.docker_compose_v2:
+         project_src: "{{ playbook_dir }}/mon_files"
+         state: present
+       become: yes

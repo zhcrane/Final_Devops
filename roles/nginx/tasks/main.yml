@@ -11,7 +11,7 @@
     name: nginx_container
     image: nginx
     state: started
-    restart_policy: always
+    restart: unless-stopped
     ports:
       - "80:80"
   become: yes

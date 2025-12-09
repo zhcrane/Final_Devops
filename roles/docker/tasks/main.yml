@@ -20,7 +20,7 @@
 
 - name: Add Docker repository
   apt_repository:
-    repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu bookworm stable"
+    repo: "deb [arch=amd64] https://download.docker.com/linux/debian bookworm stable"
     state: present 
   become: yes
 

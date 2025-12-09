@@ -43,7 +43,7 @@
  
      - name: Deploy Docker Compose stack
        ansible.community.docker.docker_compose_v2:
-        project_src: "{{ playbook_dir }}/mon_files"
+        project_src: /home/controller/Final_Devops/**mon_files**
         files:
           - docker-compose.yml   
         state: present

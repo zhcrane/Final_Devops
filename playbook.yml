@@ -41,10 +41,19 @@
          mode: '0755'
        become: yes
  
+     - name: Copy monitoring files to target
+       copy:
+         src: "{{ playbook_dir }}/mon_files/"
+         dest: /opt/mon_files/
+         owner: root
+         group: root
+         mode: '0755'
+       become: yes
+
      - name: Deploy Docker Compose stack
        ansible.community.docker.docker_compose_v2:
-        project_src: /home/controller/Final_Devops/**mon_files**
-        files:
-          - docker-compose.yml   
-        state: present
+         project_src: /opt/mon_files
+         files:
+           - docker-compose.yml
+         state: present
        become: yes

@@ -1,72 +1,53 @@
-- name: Update APT cache
-  apt:
-    update_cache: yes
-    cache_valid_time: 86400
-  become: yes
-  
-- name: Install Docker dependencies
-  apt:
-    name: ['apt-transport-https', 'ca-certificates', 'curl', 'software-properties-common']
-    state: present
-    update_cache: yes
+---
+- name: Install multiple packages
+  hosts: all
+  roles:
+    - role : docker
+    - role : docker_compose
+    - role : nginx
+  tasks:
+     - name: Update APT cache
+       apt:
+         update_cache: yes
+         cache_valid_time: 86400
+       become: yes
+ 
+     - name: Ensure docker group exists
+       group:
+         name: docker
+         state: present
+       become: yes
+ 
+     - name: Create docker system user
+       user:
+         name: dockeruser
+         system: yes
+         shell: /usr/sbin/nologin
+         createhome: no
+       become: yes
+ 
+     - name: Add dockeruser to docker group
+       user: 
+         name: dockeruser
+         groups: docker
+         append: yes
+       become: yes
+ 
+     - name: Restart Docker to apply group changes
+       systemd:
+         name: docker
+         state: restarted
+       become: yes
 
-- name: Add Docker GPG key
-  apt_key:
-    url: https://download.docker.com/linux/ubuntu/gpg
-    state: present
-
-- name: Add Docker repository
-  apt_repository:
-    repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
-    state: present 
-
-- name: Install Docker
-  apt:
-    name: ['docker-ce', 'docker-ce-cli', 'containerd.io']
-    state: present 
-    
-- name: Download Docker Compose binary
-  get_url:
-    url: https://github.com/docker/compose/releases/download/v2.20.0/docker-compose-linux-x86_64
-    dest: /usr/local/bin/docker-compose
-    mode: '0755'
-    
-- name: Create directory for Nginx HTML
-  file:
-    path: /var/www/html
-    state: directory
-    mode: '0755'
-  become: yes
-  
-  - name: Ensure docker group exists
-  group:
-    name: docker
-    state: present
-  become: yes
-    
-- name: Create docker system user
-  user:
-    name: dockeruser
-    system: yes
-    shell: /usr/sbin/nologin
-    createhome: no
-  become: yes
-
-- name: Add dockeruser to docker group
-  user: 
-    name: dockeruser
-    groups: docker
-    append: yes
-  become: yes
-
-- name: Restart Docker to apply group changes
-  systemd:
-    name: docker
-    state: restarted
-  become: yes
-  
-  - name: Deploy Docker Compose stack
-  community.docker.docker_compose_v2:
-    project_src: /path/to/your/docker-compose.yml/dir
-    state: present
-  become: yes
+     - name: Create directory for Nginx HTML
+       file:
+         path: /var/www/html
+         state: directory
+         mode: '0755'
+       become: yes
+ 
+     #- name: Deploy Docker Compose stack
+     #  community.docker.docker_compose_v2:
+     #    project_src: /path/to/your/docker-compose.yml/dir
+     #    state: present
+     #  become: yes

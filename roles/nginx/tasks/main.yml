@@ -1,17 +1,17 @@
 # Nginx Role: roles/nginx.yml
-- name: Check if Nginx is installed
-  command: nginx -v 
-  register: nginx_installed
-
-- name: Install Nginx
-  apt: 
+- name: Pull The Latest NGINX Docker image
+  docker_image:
     name: nginx
-    state: present
-    update_cache: yes
-  when: nginx_installed.rc != 0
+    tag: latest
+    source: pull
+  become: yes
 
-- name: Ensure Nginx is running
-  service:
-    name: nginx
+- name: Run NGINX Container
+  docker_container:
+    name: nginx_container
+    image: nginx
     state: started
-    enabled: true
+    restart_policy: always
+    ports:
+      - "80:80"
+  become: yes

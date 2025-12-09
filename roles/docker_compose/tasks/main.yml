@@ -1,10 +1,4 @@
 # Docker Compose Role: roles/docker_compose.yml
-- name: Check if Docker Compose is installed
-  ansible.builtin.command: docker compose version
-  register: compose_is_installed
-  failed_when: compose_is_installed.rc not in [0, 2]
-  changed_when: false
-
 - name: Download Docker Compose binary
   get_url:
     url: https://github.com/docker/compose/releases/download/v2.20.0/docker-compose-linux-x86_64

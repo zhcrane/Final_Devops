@@ -1,11 +1,4 @@
 # Docker role: roles/docker.yml
-- name: Check if docker is installed
-  ansible.builtin.service:
-     name: docker
-     state: started
-     enabled: true
-  when: docker_is_installed.rc == 0 or docker_install_task is changed
-
 - name: Install Docker dependencies
   apt:
     name: ['apt-transport-https', 'ca-certificates', 'curl', 'software-properties-common']

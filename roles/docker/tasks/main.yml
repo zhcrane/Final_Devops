@@ -1,4 +1,9 @@
 # Docker role: roles/docker.yml
+- name: Update APT cache
+  apt:
+    update_cache: yes
+    cache_valid_time: 86400
+  become: yes
 - name: Install Docker dependencies
   apt:
     name: ['apt-transport-https', 'ca-certificates', 'curl', 'software-properties-common']

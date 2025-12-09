@@ -6,11 +6,6 @@
     - role : docker_compose
     - role : nginx
   tasks:
-     - name: Update APT cache
-       apt:
-         update_cache: yes
-         cache_valid_time: 86400
-       become: yes
  
      - name: Ensure docker group exists
        group:

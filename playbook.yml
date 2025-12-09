@@ -43,6 +43,6 @@
  
      - name: Deploy Docker Compose stack
        community.docker.docker_compose_v2:
-         project_src: "{{ playbook_dir }}/mon_files/"
+         project_src: "{{ playbook_dir }}/mon_files/docker-compose.yml"
          state: present
        become: yes

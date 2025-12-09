@@ -51,7 +51,7 @@
        become: yes
 
      - name: Deploy Docker Compose stack
-       ansible.community.docker.docker_compose_v2:
+       community.docker.docker_compose:
          project_src: /opt/mon_files
          files:
            - docker-compose.yml
